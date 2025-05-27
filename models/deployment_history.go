@@ -10,11 +10,11 @@ type DeploymentHistory struct {
 	ConfigurationID      uint      `gorm:"not null;index:idx_deploy_hist_config_id" json:"configuration_id"`
 	ConfigurationVersion uint      `gorm:"not null" json:"configuration_version"`
 	NacosInstanceID      uint      `gorm:"not null;index:idx_deploy_hist_nacos_instance_id" json:"nacos_instance_id"`
-	DeploymentType       string    `gorm:"type:varchar(50);default:'FULL'" json:"deployment_type"` // e.g., "GRAY", "FULL"
-	Status               string    `gorm:"type:varchar(50);not null;index:idx_deploy_hist_status" json:"status"`     // e.g., "SUCCESS", "FAILURE", "IN_PROGRESS"
-	Message              string    `gorm:"type:text" json:"message,omitempty"`                                     // Optional, for error messages or details from Nacos
-	DeployedBy           string    `gorm:"type:varchar(255);default:null" json:"deployed_by,omitempty"`            // Identifier of the user/system deploying it
-	DeployedAt           time.Time `gorm:"default:CURRENT_TIMESTAMP;index:idx_deploy_hist_deployed_at" json:"deployed_at"`
+	DeploymentType       string    `gorm:"type:varchar(50);default:'FULL'" json:"deployment_type"`               // e.g., "GRAY", "FULL"
+	Status               string    `gorm:"type:varchar(50);not null;index:idx_deploy_hist_status" json:"status"` // e.g., "SUCCESS", "FAILURE", "IN_PROGRESS"
+	Message              string    `gorm:"type:text" json:"message,omitempty"`                                   // Optional, for error messages or details from Nacos
+	DeployedBy           string    `json:"deployed_by,omitempty"`                                                // Identifier of the user/system deploying it
+	DeployedAt           time.Time `json:"deployed_at"`
 
 	// Optional: Eager load related data if needed in responses, though often kept separate
 	// Configuration   Configuration `gorm:"foreignKey:ConfigurationID" json:"-"` // Avoid cyclic dependencies if Configuration also has DeploymentHistory

@@ -1,16 +1,17 @@
 package handlers
 
 import (
+	"config-server/services"
 	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
+	"config-server/db"     // Adjust to your module path
+	"config-server/models" // Adjust to your module path
+	"config-server/utils"  // Adjust to your module path
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/nacos-config-center/db"    // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/models" // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/utils"  // Adjust to your module path
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
@@ -107,7 +108,7 @@ func CreateConfiguration(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error checking Nacos instance"})
 		return
 	}
-	
+
 	// Check for existing configuration with same data_id, group_name for the instance
 	var existingConfig models.Configuration
 	err := db.DB.Where("nacos_instance_id = ? AND data_id = ? AND group_name = ?", req.NacosInstanceID, req.DataID, req.GroupName).First(&existingConfig).Error
@@ -120,7 +121,6 @@ func CreateConfiguration(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error checking for existing configuration"})
 		return
 	}
-
 
 	config := models.Configuration{
 		NacosInstanceID: req.NacosInstanceID,
@@ -256,7 +256,7 @@ func PublishConfigurationToNacos(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid publish type. Must be 'gray' or 'full'."})
 		return
 	}
-	
+
 	var publishReq models.PublishRequest
 	// Attempt to bind JSON only if content type is JSON, otherwise ignore (e.g. for FULL with no body)
 	if c.ContentType() == "application/json" {
@@ -271,7 +271,7 @@ func PublishConfigurationToNacos(c *gin.Context) {
 		}
 	}
 	// Extract betaIps from publishReq if available, for now assuming it's a simple string in the request
-	// var betaIps string 
+	// var betaIps string
 	// if publishType == "GRAY" && len(publishReq.BetaIPs) > 0 {
 	//  betaIps = strings.Join(publishReq.BetaIPs, ",")
 	// }
@@ -337,7 +337,7 @@ func PublishConfigurationToNacos(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "failure", "message": deployment.Message})
 		return
 	}
-	
+
 	deployment.Status = "SUCCESS"
 	deployment.Message = "Successfully published to Nacos."
 	if err := db.DB.Save(&deployment).Error; err != nil {
@@ -347,7 +347,6 @@ func PublishConfigurationToNacos(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"status": "success", "message": "Configuration published to Nacos successfully."})
 }
-
 
 // GetConfigurationHistoryList godoc
 // @Summary List historical versions of a configuration
@@ -458,7 +457,7 @@ func RollbackConfiguration(c *gin.Context) {
 	currentConfig.Format = historyEntry.Format
 	currentConfig.Version++ // New version for this rollback state
 	// Description could also be rolled back if stored in history and desired. Assuming it's not for now or part of content.
-	
+
 	if err := tx.Save(&currentConfig).Error; err != nil {
 		tx.Rollback()
 		utils.Logger.Error("Failed to save rolled-back configuration", zap.Uint64("id", configID), zap.Error(err))
@@ -492,7 +491,7 @@ func RollbackConfiguration(c *gin.Context) {
 		ID:              currentConfig.ID,
 		NacosInstanceID: currentConfig.NacosInstanceID,
 		DataID:          currentConfig.DataID,
-		GroupName:       current.GroupName,
+		GroupName:       currentConfig.GroupName,
 		Content:         currentConfig.Content,
 		Format:          currentConfig.Format,
 		Description:     currentConfig.Description, // This would be the description before rollback unless also rolled back
@@ -540,7 +539,7 @@ func GetDeploymentHistoryList(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve deployment history"})
 		return
 	}
-	
+
 	if len(deployments) == 0 {
 		c.JSON(http.StatusOK, []models.DeploymentHistory{})
 		return
@@ -616,7 +615,7 @@ func UpdateConfiguration(c *gin.Context) {
 		c.JSON(http.StatusOK, response) // Or http.StatusNotModified if appropriate
 		return
 	}
-	
+
 	config.Version++ // Increment version
 
 	// Use a transaction
@@ -654,12 +653,11 @@ func UpdateConfiguration(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to commit transaction"})
 		return
 	}
-	
+
 	// Placeholder for diff generation:
 	utils.Logger.Info("Diff generation needed here.", zap.Uint("config_id", config.ID))
 	// Placeholder for Feishu notification:
 	utils.Logger.Info("Feishu notification needed here.", zap.Uint("config_id", config.ID))
-
 
 	response := models.ConfigurationResponse{
 		ID:              config.ID,
@@ -751,7 +749,6 @@ func GetConfigurationDiff(c *gin.Context) {
 	if strings.EqualFold(currentConfig.Content, comparedVersionHistory.Content) {
 		diffOutput = "Contents are identical."
 	}
-
 
 	response := models.DiffResponse{
 		CurrentVersionContent:  currentConfig.Content,

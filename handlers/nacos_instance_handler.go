@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"config-server/db"     // Adjust to your module path
+	"config-server/models" // Adjust to your module path
+	"config-server/utils"  // Adjust to your module path
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/nacos-config-center/db" // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/models" // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/utils"  // Adjust to your module path
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
@@ -37,7 +37,7 @@ func CreateNacosInstance(c *gin.Context) {
 		NamespaceID: req.NamespaceID,
 		Username:    req.Username,
 		// Note: Password should be hashed/encrypted in a real application before storing
-		Password:    req.Password, // Storing plain for prototype, BAD PRACTICE
+		Password: req.Password, // Storing plain for prototype, BAD PRACTICE
 	}
 
 	if err := db.DB.Create(&instance).Error; err != nil {
@@ -49,7 +49,7 @@ func CreateNacosInstance(c *gin.Context) {
 	// Important: Do not return the password in the response, even if hashed.
 	// The instance object here will have the password if it was set.
 	// Create a new struct for response or clear the password field.
-	instance.Password = "" 
+	instance.Password = ""
 	c.JSON(http.StatusCreated, instance)
 }
 
@@ -160,11 +160,10 @@ func UpdateNacosInstance(c *gin.Context) {
 	if req.Username != nil {
 		instance.Username = *req.Username
 	}
-	if req.Password != nil && *req.Password != "" { 
+	if req.Password != nil && *req.Password != "" {
 		// Handle password update: In a real app, hash this new password
 		instance.Password = *req.Password // Storing plain for prototype
 	}
-
 
 	if err := db.DB.Save(&instance).Error; err != nil {
 		utils.Logger.Error("Failed to update Nacos instance in DB", zap.Uint64("id", id), zap.Error(err))

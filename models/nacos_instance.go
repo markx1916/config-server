@@ -1,8 +1,6 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
 // NacosInstance corresponds to the `nacos_instances` table in the database.
 type NacosInstance struct {
@@ -12,8 +10,8 @@ type NacosInstance struct {
 	NamespaceID string    `gorm:"type:varchar(255);default:null" json:"namespace_id"`
 	Username    string    `gorm:"type:varchar(255);default:null" json:"username,omitempty"`
 	Password    string    `gorm:"type:varchar(255);default:null" json:"-"` // Never send password in JSON responses
-	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP;onUpdate:CURRENT_TIMESTAMP" json:"updated_at"`
+	CreatedAt   time.Time ` json:"created_at"`
+	UpdatedAt   time.Time ` json:"updated_at"`
 }
 
 // TableName specifies the table name for GORM.

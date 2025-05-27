@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"time"
 
+	"config-server/handlers" // Adjust to your module path
+	"config-server/utils"    // Adjust to your module path
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/nacos-config-center/handlers" // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/utils"    // Adjust to your module path
 	"go.uber.org/zap"
 )
 
@@ -59,7 +59,7 @@ func SetupRouter() *gin.Engine {
 		}
 		c.AbortWithStatus(http.StatusInternalServerError)
 	}))
-	
+
 	// Health check endpoint
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "UP"})
@@ -84,7 +84,7 @@ func SetupRouter() *gin.Engine {
 			configRoutes.GET("/:id", handlers.GetConfiguration)
 			configRoutes.PUT("/:id", handlers.UpdateConfiguration)
 			configRoutes.GET("/:id/diff", handlers.GetConfigurationDiff)
-			
+
 			// Publish, History, Rollback, Deployments
 			configRoutes.POST("/:id/publish/:type", handlers.PublishConfigurationToNacos) // type: gray or full
 			configRoutes.GET("/:id/history", handlers.GetConfigurationHistoryList)

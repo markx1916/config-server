@@ -14,8 +14,8 @@ type Configuration struct {
 	Format          string    `gorm:"type:varchar(50);not null;default:'text'" json:"format"` // e.g., yaml, json, properties, text
 	Description     string    `gorm:"type:text" json:"description,omitempty"`
 	Version         uint      `gorm:"not null;default:1" json:"version"`
-	CreatedAt       time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt       time.Time `gorm:"default:CURRENT_TIMESTAMP;onUpdate:CURRENT_TIMESTAMP" json:"updated_at"`
+	CreatedAt       time.Time `json:"created_at"`
+	UpdatedAt       time.Time `json:"updated_at"`
 
 	// Foreign key constraint (optional, GORM can work without it but good for DB integrity)
 	// NacosInstance NacosInstance `gorm:"foreignKey:NacosInstanceID"`
@@ -60,8 +60,8 @@ type ConfigurationResponse struct {
 
 // DiffResponse defines the structure for the diff endpoint.
 type DiffResponse struct {
-	CurrentVersionContent string `json:"current_version_content"`
-	ComparedVersion       uint   `json:"compared_version"`
+	CurrentVersionContent  string `json:"current_version_content"`
+	ComparedVersion        uint   `json:"compared_version"`
 	ComparedVersionContent string `json:"compared_version_content"`
-	DiffOutput            string `json:"diff_output"` // For now, a simple textual representation or combined content
+	DiffOutput             string `json:"diff_output"` // For now, a simple textual representation or combined content
 }

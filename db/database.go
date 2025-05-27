@@ -2,13 +2,14 @@ package db
 
 import (
 	"fmt"
+	"go.uber.org/zap"
 	"log"
 	"os"
 	"time"
 
-	"github.com/yourusername/nacos-config-center/config" // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/models" // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/utils"  // Adjust to your module path
+	"config-server/config" // Adjust to your module path
+	"config-server/models" // Adjust to your module path
+	"config-server/utils"  // Adjust to your module path
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

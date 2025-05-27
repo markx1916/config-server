@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/yourusername/nacos-config-center/config" // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/db"      // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/routes"  // Adjust to your module path
-	"github.com/yourusername/nacos-config-center/utils"   // Adjust to your module path
+	"config-server/config" // Adjust to your module path
+	"config-server/db"     // Adjust to your module path
+	"config-server/routes" // Adjust to your module path
+	"config-server/utils"  // Adjust to your module path
 	"go.uber.org/zap"
 )
 
@@ -26,16 +26,15 @@ func main() {
 	// You might want to pass the config path as a flag or env var
 	// Ensure config.yaml is in the same directory as the executable or specify the correct path.
 	// For development, if running `go run main.go` from the project root, "." is correct.
-	cfg, err := config.LoadConfig(".") 
+	cfg, err := config.LoadConfig(".")
 	if err != nil {
 		utils.Logger.Fatal("Failed to load configuration", zap.Error(err))
 	}
 	utils.Logger.Info("Configuration loaded successfully", zap.String("port", cfg.ServerPort), zap.String("db_dsn_preview", cfg.Database.DSN[:15]+"..."))
 
-
 	// Initialize database
 	// db.InitDB will set the global db.DB variable and also return it.
-	_, err = db.InitDB(&cfg) 
+	_, err = db.InitDB(&cfg)
 	if err != nil {
 		utils.Logger.Fatal("Failed to initialize database", zap.Error(err))
 	}
