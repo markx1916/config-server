@@ -1,0 +1,27 @@
+# Server configuration
+SERVER_PORT: "8080"
+
+# Database configuration (MySQL)
+DATABASE:
+  DSN: "user:pass@tcp(127.0.0.1:3306)/nacos_tool?charset=utf8mb4&parseTime=True&loc=Local"
+
+# Nacos server initial connection details (can be managed via API later)
+# Used for initial setup or as a fallback if no instances are in the DB.
+NACOS:
+  SERVER_ADDR: "127.0.0.1:8848" # Comma separated for multiple servers e.g., "server1:8848,server2:8848"
+  NAMESPACE_ID: ""             # Default Nacos public namespace. Specific namespaces can be configured per managed config.
+  USERNAME: ""                 # Optional: Username for Nacos authentication
+  PASSWORD: ""                 # Optional: Password for Nacos authentication
+  SCHEME: "http"               # http or https
+  CONTEXT_PATH: "/nacos"       # Default is /nacos
+  TIMEOUT_MS: 10000            # Timeout for Nacos client requests in milliseconds
+
+# Feishu Webhook URL for notifications
+FEISHU_WEBHOOK_URL: "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_HOOK_ID"
+
+# To use environment variables, prefix with NCT_ and use underscores
+# Example:
+# NCT_SERVER_PORT=8081
+# NCT_DATABASE_DSN="user:pass@tcp(host.docker.internal:3306)/nacos_tool?charset=utf8mb4&parseTime=True&loc=Local"
+# NCT_NACOS_SERVER_ADDR="nacos-server:8848"
+# NCT_FEISHU_WEBHOOK_URL="your_feishu_webhook_url"

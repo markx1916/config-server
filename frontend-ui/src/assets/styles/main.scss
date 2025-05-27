@@ -1,0 +1,71 @@
+/* Global SCSS styles */
+
+// Example: Import Element Plus custom theme variables if you have them
+// @use './element-variables.scss' as *;
+
+// Example: Basic body styling
+body {
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  color: #303133; // Element Plus default text color
+  background-color: #f4f4f5; // A light gray background
+}
+
+#app {
+  // display: flex;
+  // flex-direction: column;
+  // min-height: 100vh;
+}
+
+// Common utility classes
+.container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+// Style for router links to make them look like normal text or buttons if needed
+// a {
+//   text-decoration: none;
+//   color: var(--el-color-primary);
+//   &:hover {
+//     color: var(--el-color-primary-light-3);
+//   }
+// }
+
+// Override Element Plus styles if necessary, but do so sparingly.
+// Example:
+// .el-table {
+//   font-size: 13px;
+// }
+
+// Main layout styling (if you have a common layout component)
+// .main-layout {
+//   display: flex;
+//   .sidebar {
+//     width: 200px; // Adjust as needed
+//     // background-color: #your-sidebar-color;
+//   }
+//   .content-area {
+//     flex-grow: 1;
+//     padding: 20px;
+//     // background-color: #your-content-bg-color;
+//   }
+// }
