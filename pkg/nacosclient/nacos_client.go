@@ -78,7 +78,7 @@ func (m *NacosClientManager) GetClients(instance models.NacosInstance) (config_c
 	if len(serverConfigs) == 0 {
 		return nil, nil, fmt.Errorf("no valid server configurations found for instance ID %d (URL: %s)", instance.ID, instance.InstanceURL)
 	}
-	
+
 	// ClientConfig
 	clientConfig := *constant.NewClientConfig(
 		constant.With первоеTimeoutMs(m.defaultNacosConfig.TimeoutMs), // Use default timeout from app config
@@ -221,7 +221,7 @@ func (m *NacosClientManager) TestNacosConnection(instance models.NacosInstance) 
 	if err != nil {
 		return fmt.Errorf("failed to list namespaces during connection test: %w", err)
 	}
-	
+
 	logger.Info("Nacos connection test successful", zap.Uint("instanceID", instance.ID), zap.String("instanceURL", instance.InstanceURL))
 	return nil
 }

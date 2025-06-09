@@ -27,7 +27,7 @@ This is the Vue 3 + TypeScript + Element Plus frontend for the Nacos Configurati
         "element-plus": "^2.7.0",
         "diff2html": "^3.4.47",
         "diff": "^5.1.0", // For generating diffs
-        "vue-codemirror": "^6.0.3", 
+        "vue-codemirror": "^6.0.3",
         "codemirror": "^6.0.1",
         "@codemirror/state": "^6.4.1",
         "@codemirror/view": "^6.26.3",
@@ -78,9 +78,9 @@ This is the Vue 3 + TypeScript + Element Plus frontend for the Nacos Configurati
         When building for production, the `API_BASE_URL` in `src/services/api.ts` will be used. By default, it's `/api`. This means your production deployment should serve the frontend and backend in a way that API requests to `/api/...` are routed to the backend server (e.g., using Nginx reverse proxy).
         You can also configure this via Vite environment variables (e.g., `VITE_API_BASE_URL`). Create a `.env.production` file in the `frontend-ui` directory:
         ```
-        VITE_API_BASE_URL=https://your-backend.example.com/api 
+        VITE_API_BASE_URL=https://your-backend.example.com/api
         # Or for same-domain deployment:
-        # VITE_API_BASE_URL=/api 
+        # VITE_API_BASE_URL=/api
         ```
 
 ## Running the Development Server

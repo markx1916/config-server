@@ -325,7 +325,7 @@ const compareWithNacos = async () => {
     if (!diffData.isDifferent) {
       diffHtml.value = '<p>Contents are identical.</p>';
     } else if (diffData.nacosError) {
-        diffHtml.value = `<p>Error from Nacos: ${diffData.nacosError}</p> 
+        diffHtml.value = `<p>Error from Nacos: ${diffData.nacosError}</p>
                           <p>Local Content:</p><pre>${diffData.localContent || ''}</pre>`;
     } else {
       // Use Diff.createPatch or Diff.structuredPatch for more structured diff data
@@ -359,7 +359,7 @@ const handlePublish = () => {
     }
     publishDialogVisible.value = true;
     // Reset publish form if needed
-    publishForm.value.operator = 'frontend-user'; 
+    publishForm.value.operator = 'frontend-user';
 };
 
 const confirmPublish = async () => {

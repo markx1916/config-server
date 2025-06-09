@@ -300,7 +300,7 @@ const handleSaveConfig = async () => {
 
 const handlePublish = async (type: 'gray' | 'full') => {
   if (!configIdNumber.value) return;
-  
+
   let confirmMessage = `Are you sure you want to perform a ${type.toUpperCase()} publish for this configuration?`;
   if (type === 'gray' && !betaIps.value) {
     ElMessage.warning('For Gray Publish, please specify Beta IPs.');

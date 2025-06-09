@@ -1,17 +1,16 @@
 package handlers
 
 import (
-	"config-server/services"
 	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
-	"config-server/db"     // Adjust to your module path
-	"config-server/models" // Adjust to your module path
-	"config-server/utils"  // Adjust to your module path
 	"github.com/gin-gonic/gin"
+	"github.com/yourusername/nacos-config-center/db"    // Adjust to your module path
+	"github.com/yourusername/nacos-config-center/models" // Adjust to your module path
+	"github.com/yourusername/nacos-config-center/utils"  // Adjust to your module path
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
@@ -121,6 +120,7 @@ func CreateConfiguration(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error checking for existing configuration"})
 		return
 	}
+
 
 	config := models.Configuration{
 		NacosInstanceID: req.NacosInstanceID,
@@ -348,6 +348,7 @@ func PublishConfigurationToNacos(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": "success", "message": "Configuration published to Nacos successfully."})
 }
 
+
 // GetConfigurationHistoryList godoc
 // @Summary List historical versions of a configuration
 // @Description Get all historical versions for a given configuration ID from the local database
@@ -491,7 +492,7 @@ func RollbackConfiguration(c *gin.Context) {
 		ID:              currentConfig.ID,
 		NacosInstanceID: currentConfig.NacosInstanceID,
 		DataID:          currentConfig.DataID,
-		GroupName:       currentConfig.GroupName,
+		GroupName:       current.GroupName,
 		Content:         currentConfig.Content,
 		Format:          currentConfig.Format,
 		Description:     currentConfig.Description, // This would be the description before rollback unless also rolled back
@@ -659,6 +660,7 @@ func UpdateConfiguration(c *gin.Context) {
 	// Placeholder for Feishu notification:
 	utils.Logger.Info("Feishu notification needed here.", zap.Uint("config_id", config.ID))
 
+
 	response := models.ConfigurationResponse{
 		ID:              config.ID,
 		NacosInstanceID: config.NacosInstanceID,
@@ -749,6 +751,7 @@ func GetConfigurationDiff(c *gin.Context) {
 	if strings.EqualFold(currentConfig.Content, comparedVersionHistory.Content) {
 		diffOutput = "Contents are identical."
 	}
+
 
 	response := models.DiffResponse{
 		CurrentVersionContent:  currentConfig.Content,

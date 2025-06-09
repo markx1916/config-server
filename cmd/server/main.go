@@ -178,7 +178,7 @@ func main() {
 		recordRoutes.GET("", publishRecordHandler.ListPublishRecords)
 		recordRoutes.GET("/:id", publishRecordHandler.GetPublishRecord)
 	}
-	
+
 	// Health Check endpoint
 	router.GET("/health", func(c *gin.Context) {
 		// TODO: more comprehensive health check (DB, Nacos connectivity)

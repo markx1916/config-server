@@ -59,7 +59,7 @@ func (h *PublishHandler) PublishConfiguration(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body: " + err.Error()})
 		return
 	}
-	
+
 	operator := "api_user" // Default operator
 	if req.Operator != "" {
 		operator = req.Operator
@@ -76,7 +76,7 @@ func (h *PublishHandler) PublishConfiguration(c *gin.Context) {
 		}
 		return
 	}
-	
+
 	if localConfig.NacosInstance.ID == 0 {
 	    logger.Warn("Nacos instance details not found for configuration during publish", zap.Uint64("configId", configID))
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Nacos instance details not found for this configuration."})
@@ -138,7 +138,7 @@ func (h *PublishHandler) PublishConfiguration(c *gin.Context) {
 		publishRecord.Status = "SUCCESS"
 		publishRecord.Details = "Successfully published to Nacos."
 		logger.Info("Successfully published configuration to Nacos", zap.Uint("publishRecordId", publishRecord.ID), zap.String("dataId", localConfig.DataID))
-		
+
 		// Update LastSync info on the configuration
 		localConfig.LastSyncTime = func() *time.Time { t := time.Now(); return &t }()
 		localConfig.LastSyncVersion = localConfig.MD5 // Assuming successful publish means local MD5 is now Nacos version
@@ -158,7 +158,7 @@ func (h *PublishHandler) PublishConfiguration(c *gin.Context) {
 			return
 		}
 	}
-	
+
 	// Mock Feishu notification for successful publish
 	if publishRecord.Status == "SUCCESS" && h.FeishuWebhookURL != "" {
 		logger.Info("Mock Feishu Notification: Configuration published to Nacos",

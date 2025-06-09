@@ -6,13 +6,13 @@ import (
 	"strings"
 	"sync"
 
-	"config-server/config" // Adjust to your module path
-	"config-server/models" // Adjust to your module path
-	"config-server/utils"  // Adjust to your module path
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
 	"github.com/nacos-group/nacos-sdk-go/v2/clients/config_client"
 	"github.com/nacos-group/nacos-sdk-go/v2/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
+	"github.com/yourusername/nacos-config-center/config" // Adjust to your module path
+	"github.com/yourusername/nacos-config-center/models" // Adjust to your module path
+	"github.com/yourusername/nacos-config-center/utils"  // Adjust to your module path
 	"go.uber.org/zap"
 )
 
@@ -58,7 +58,7 @@ func getNacosClient(instance *models.NacosInstance) (config_client.IConfigClient
 	cc := *constant.NewClientConfig(
 		constant.WithNamespaceId(instance.NamespaceID),
 		constant.WithTimeoutMs(config.AppConfig.Nacos.TimeoutMs), // From global config
-		constant.WithBeatInterval(2*1000),                        //ms
+		constant.WithBeatInterval(2*1000), //ms
 		constant.WithNotLoadCacheAtStart(true),
 		constant.WithUsername(instance.Username),
 		constant.WithPassword(instance.Password),
@@ -68,8 +68,9 @@ func getNacosClient(instance *models.NacosInstance) (config_client.IConfigClient
 		// constant.WithContextPath(config.AppConfig.Nacos.ContextPath),
 	)
 	// SDK v2 recommends using LogDir and CacheDir for log and cache files.
-	// cc.LogDir = "/tmp/nacos/log"
-	// cc.CacheDir = "/tmp/nacos/cache"
+    // cc.LogDir = "/tmp/nacos/log"
+    // cc.CacheDir = "/tmp/nacos/cache"
+
 
 	client, err := clients.NewConfigClient(
 		vo.NacosClientParam{
@@ -108,7 +109,7 @@ func PublishConfig(instance *models.NacosInstance, config *models.Configuration,
 		DataId:  config.DataID,
 		Group:   config.GroupName,
 		Content: content,
-		//Type:    vo.ConfigType(config.Format), // Ensure config.Format matches one of Nacos's types (text, json, xml, yaml, html, properties)
+		Type:    vo.ConfigType(config.Format), // Ensure config.Format matches one of Nacos's types (text, json, xml, yaml, html, properties)
 	}
 
 	// For Nacos SDK v2, if you're doing a beta/gray publish, you might set BetaIps.
@@ -121,6 +122,7 @@ func PublishConfig(instance *models.NacosInstance, config *models.Configuration,
 	} else {
 		utils.Logger.Info("Attempting FULL publish", zap.String("dataId", config.DataID), zap.String("group", config.GroupName))
 	}
+
 
 	success, err := client.PublishConfig(params)
 	if err != nil {

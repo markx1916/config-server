@@ -63,7 +63,7 @@ func (h *ConfigurationHandler) CreateConfiguration(c *gin.Context) {
 	if contentType == "" {
 		contentType = "text" // Default content type
 	}
-	
+
 	md5Sum := fmt.Sprintf("%x", md5.Sum([]byte(req.Content)))
 
 	configEntry := models.Configuration{
@@ -89,7 +89,7 @@ func (h *ConfigurationHandler) CreateConfiguration(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error validating Nacos instance: " + err.Error()})
 		return
 	}
-	
+
 	// Check for existing configuration
 	var existing models.Configuration
 	err := h.DB.Where("nacos_instance_id = ? AND data_id = ? AND group_name = ? AND namespace_id = ?",
@@ -177,7 +177,7 @@ func (h *ConfigurationHandler) ListConfigurations(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to list configurations: " + err.Error()})
 		return
 	}
-	
+
 	for i := range configurations {
         if configurations[i].NacosInstance.Password != "" {
             configurations[i].NacosInstance.Password = "" // Clear password
@@ -268,7 +268,7 @@ func (h *ConfigurationHandler) UpdateConfiguration(c *gin.Context) {
 	if req.Description != nil {
 		configEntry.Description = *req.Description
 	}
-	
+
 	operator := "api_user" // Default operator, can be enhanced with auth
 	if req.Operator != "" {
 		operator = req.Operator
@@ -341,7 +341,7 @@ func (h *ConfigurationHandler) GetConfigurationDiffWithNacos(c *gin.Context) {
 		}
 		return
 	}
-	
+
 	if localConfig.NacosInstance.ID == 0 {
 	    c.JSON(http.StatusBadRequest, gin.H{"error": "Nacos instance details not found for this configuration."})
 		return
@@ -361,7 +361,7 @@ func (h *ConfigurationHandler) GetConfigurationDiffWithNacos(c *gin.Context) {
 		// The Nacos client itself is initialized with a default NamespaceId from NacosInstance,
 		// but operations like GetConfig can specify a different one.
 		// If localConfig.NamespaceID is empty, it implies the public namespace for that specific config.
-		Namespace: localConfig.NamespaceID, 
+		Namespace: localConfig.NamespaceID,
 	})
 
 	if err != nil {
@@ -419,7 +419,7 @@ func (h *ConfigurationHandler) FetchConfigurationFromNacos(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid configuration ID format"})
 		return
 	}
-	
+
 	operator := c.Query("operator") // Optional: operator from query param
 	if operator == "" {
 		operator = "api_fetch"
@@ -434,7 +434,7 @@ func (h *ConfigurationHandler) FetchConfigurationFromNacos(c *gin.Context) {
 		}
 		return
 	}
-	
+
 	if localConfig.NacosInstance.ID == 0 {
 	    c.JSON(http.StatusBadRequest, gin.H{"error": "Nacos instance details not found for this configuration."})
 		return
@@ -469,7 +469,7 @@ func (h *ConfigurationHandler) FetchConfigurationFromNacos(c *gin.Context) {
 	localConfig.MD5 = fmt.Sprintf("%x", md5.Sum([]byte(nacosContent)))
 	localConfig.LastSyncTime = func() *time.Time { t := time.Now(); return &t }() // Update sync time
 	// Assuming Nacos doesn't directly version like this, we might use its MD5 or a timestamp if available from Nacos headers
-	localConfig.LastSyncVersion = localConfig.MD5 
+	localConfig.LastSyncVersion = localConfig.MD5
 
 
 	err = h.DB.Transaction(func(tx *gorm.DB) error {
@@ -483,7 +483,7 @@ func (h *ConfigurationHandler) FetchConfigurationFromNacos(c *gin.Context) {
 			ContentType:     localConfig.ContentType, // ContentType might not be available from Nacos GetConfig, assume it's unchanged
 			MD5:             localConfig.MD5,
 			ChangeSource:    "nacos_sync_fetch",
-			Operator:        operator, 
+			Operator:        operator,
 		}
 		if err := tx.Create(&historyEntry).Error; err != nil {
 			return fmt.Errorf("failed to create configuration history after Nacos fetch: %w", err)
@@ -496,7 +496,7 @@ func (h *ConfigurationHandler) FetchConfigurationFromNacos(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update configuration from Nacos: " + err.Error()})
 		return
 	}
-	
+
 	// Mock Feishu notification
 	if h.FeishuWebhookURL != "" {
 		logger.Info("Mock Feishu Notification: Configuration fetched from Nacos and updated",
@@ -571,7 +571,7 @@ func (h *ConfigurationHandler) GetConfigurationHistoryEntry(c *gin.Context) {
 		}
 		return
 	}
-	
+
     if historyEntry.Configuration.NacosInstance.Password != "" {
         historyEntry.Configuration.NacosInstance.Password = "" // Clear password
     }
@@ -603,7 +603,7 @@ func (h *ConfigurationHandler) RollbackConfiguration(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid history ID format"})
 		return
 	}
-	
+
 	var req RollbackConfigurationRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		// Allow empty body, operator is optional
@@ -613,7 +613,7 @@ func (h *ConfigurationHandler) RollbackConfiguration(c *gin.Context) {
 			return
 		}
 	}
-	
+
 	operator := "api_user_rollback" // Default operator
 	if req.Operator != "" {
 		operator = req.Operator
@@ -670,7 +670,7 @@ func (h *ConfigurationHandler) RollbackConfiguration(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Rollback failed: " + err.Error()})
 		return
 	}
-	
+
 	// Mock Feishu notification for rollback
 	if h.FeishuWebhookURL != "" {
 		logger.Info("Mock Feishu Notification: Configuration rolled back",

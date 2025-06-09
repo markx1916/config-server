@@ -272,7 +272,7 @@ func (h *NacosInstanceHandler) DeleteNacosInstance(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete Nacos instance: " + err.Error()})
 		return
 	}
-	
+
 	// GORM's Delete with a primary key value will set DeletedAt field if the model has gorm.DeletedAt
     // If it's a hard delete, then RowsAffected can be checked.
     // For soft delete, we assume success if no error.

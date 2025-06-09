@@ -3,15 +3,15 @@ SERVER_PORT: "8080"
 
 # Database configuration (MySQL)
 DATABASE:
-  DSN: "root:123asd@tcp(127.0.0.1:3306)/config-server?charset=utf8mb4&parseTime=True&loc=Local"
+  DSN: "user:pass@tcp(127.0.0.1:3306)/nacos_tool?charset=utf8mb4&parseTime=True&loc=Local"
 
 # Nacos server initial connection details (can be managed via API later)
 # Used for initial setup or as a fallback if no instances are in the DB.
 NACOS:
-  SERVER_ADDR: "10.201.75.27:8848" # Comma separated for multiple servers e.g., "server1:8848,server2:8848"
+  SERVER_ADDR: "127.0.0.1:8848" # Comma separated for multiple servers e.g., "server1:8848,server2:8848"
   NAMESPACE_ID: ""             # Default Nacos public namespace. Specific namespaces can be configured per managed config.
-  USERNAME: "amp"                 # Optional: Username for Nacos authentication
-  PASSWORD: "4uzc339waqR26AK8"                 # Optional: Password for Nacos authentication
+  USERNAME: ""                 # Optional: Username for Nacos authentication
+  PASSWORD: ""                 # Optional: Password for Nacos authentication
   SCHEME: "http"               # http or https
   CONTEXT_PATH: "/nacos"       # Default is /nacos
   TIMEOUT_MS: 10000            # Timeout for Nacos client requests in milliseconds

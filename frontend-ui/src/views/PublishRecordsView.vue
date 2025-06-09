@@ -87,12 +87,12 @@
             <el-descriptions-item label="Publish Type">{{ selectedRecord.PublishType }}</el-descriptions-item>
             <el-descriptions-item label="Operator">{{ selectedRecord.Operator }}</el-descriptions-item>
             <el-descriptions-item label="Published At">{{ new Date(selectedRecord.PublishedAt).toLocaleString() }}</el-descriptions-item>
-            
+
             <el-descriptions-item label="Config ID">{{ selectedRecord.ConfigurationID }}</el-descriptions-item>
             <el-descriptions-item label="Config Data ID" v-if="selectedRecord.Configuration">{{ selectedRecord.Configuration.DataID }}</el-descriptions-item>
             <el-descriptions-item label="Config Group" v-if="selectedRecord.Configuration">{{ selectedRecord.Configuration.Group }}</el-descriptions-item>
             <el-descriptions-item label="Config Namespace" v-if="selectedRecord.Configuration">{{ selectedRecord.Configuration.NamespaceID || 'public' }}</el-descriptions-item>
-            
+
             <el-descriptions-item label="Instance ID">{{ selectedRecord.NacosInstanceID }}</el-descriptions-item>
             <el-descriptions-item label="Instance URL" v-if="selectedRecord.NacosInstance">{{ selectedRecord.NacosInstance.InstanceURL }}</el-descriptions-item>
         </el-descriptions>

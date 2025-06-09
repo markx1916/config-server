@@ -17,7 +17,7 @@ export const useNacosStore = defineStore('nacos', {
       this.selectedInstanceUrl = instance.instanceUrl;
       // Reset namespaces and current namespace when instance changes
       this.availableNamespaces = [];
-      this.currentNamespaceId = null; 
+      this.currentNamespaceId = null;
       // TODO: Fetch namespaces for this instance from backend
     },
     setNamespaces(namespaces: { namespaceId: string; namespaceShowName: string }[]) {

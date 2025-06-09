@@ -162,7 +162,7 @@ export interface DiffResponse {
   current_version_content: string;
   compared_version: number;
   compared_version_content: string;
-  diff_output: string; 
+  diff_output: string;
 }
 
 // Configuration API calls

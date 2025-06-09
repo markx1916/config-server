@@ -58,7 +58,7 @@ func (h *PublishRecordHandler) ListPublishRecords(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to list publish records: " + err.Error()})
 		return
 	}
-	
+
 	// Clear sensitive information from preloaded NacosInstance data
     for i := range records {
         if records[i].Configuration.ID > 0 && records[i].Configuration.NacosInstance.Password != "" {
@@ -105,7 +105,7 @@ func (h *PublishRecordHandler) GetPublishRecord(c *gin.Context) {
 	if record.NacosInstance.Password != "" {
 		record.NacosInstance.Password = ""
 	}
-	
+
 
 	c.JSON(http.StatusOK, record)
 }

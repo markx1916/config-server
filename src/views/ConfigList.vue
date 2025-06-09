@@ -85,7 +85,7 @@
        <el-pagination
         v-if="configStore.configurations.length"
         layout="prev, pager, next, sizes, total"
-        :total="configStore.configurations.length" 
+        :total="configStore.configurations.length"
         :page-sizes="[10, 20, 50, 100]"
         style="margin-top: 20px; justify-content: flex-end;"
       ></el-pagination>

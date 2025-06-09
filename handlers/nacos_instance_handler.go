@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"config-server/db"     // Adjust to your module path
-	"config-server/models" // Adjust to your module path
-	"config-server/utils"  // Adjust to your module path
 	"github.com/gin-gonic/gin"
+	"github.com/yourusername/nacos-config-center/db" // Adjust to your module path
+	"github.com/yourusername/nacos-config-center/models" // Adjust to your module path
+	"github.com/yourusername/nacos-config-center/utils"  // Adjust to your module path
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
@@ -37,7 +37,7 @@ func CreateNacosInstance(c *gin.Context) {
 		NamespaceID: req.NamespaceID,
 		Username:    req.Username,
 		// Note: Password should be hashed/encrypted in a real application before storing
-		Password: req.Password, // Storing plain for prototype, BAD PRACTICE
+		Password:    req.Password, // Storing plain for prototype, BAD PRACTICE
 	}
 
 	if err := db.DB.Create(&instance).Error; err != nil {
@@ -164,6 +164,7 @@ func UpdateNacosInstance(c *gin.Context) {
 		// Handle password update: In a real app, hash this new password
 		instance.Password = *req.Password // Storing plain for prototype
 	}
+
 
 	if err := db.DB.Save(&instance).Error; err != nil {
 		utils.Logger.Error("Failed to update Nacos instance in DB", zap.Uint64("id", id), zap.Error(err))

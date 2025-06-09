@@ -54,7 +54,7 @@
               v-model="selectedHistoryEntry.Content"
               :style="{ height: '400px', width: '100%' }"
               :extensions="codemirrorExtensionsDialog"
-              :disabled="true" 
+              :disabled="true"
             />
         </div>
       </div>

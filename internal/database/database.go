@@ -162,7 +162,7 @@ func IsForeignKeyConstraintError(err error) bool {
 		case 1451, 1217: // Common errors for trying to delete/update a parent row that has children.
 			return true
 		// case 1452: // Error for trying to add/update a child row with an invalid foreign key.
-		//  return true 
+		//  return true
 		default:
 			return false
 		}

@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"time"
 
-	"config-server/handlers" // Adjust to your module path
-	"config-server/utils"    // Adjust to your module path
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/yourusername/nacos-config-center/handlers" // Adjust to your module path
+	"github.com/yourusername/nacos-config-center/utils"    // Adjust to your module path
 	"go.uber.org/zap"
 )
 

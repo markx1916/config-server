@@ -39,14 +39,14 @@
                 :name="ns.namespaceId"
               />
               <!-- Add a specific tab for public if not already listed and if others exist -->
-              <el-tab-pane 
-                label="public (Default)" 
-                name="" 
+              <el-tab-pane
+                label="public (Default)"
+                name=""
                 v-if="!nacosStore.availableNamespaces.some(ns => ns.namespaceId === '') && nacosStore.availableNamespaces.length > 0">
               </el-tab-pane>
-               <el-tab-pane 
-                label="public" 
-                name="" 
+               <el-tab-pane
+                label="public"
+                name=""
                 v-if="nacosStore.availableNamespaces.length === 0"> <!-- Show public if no custom namespaces loaded -->
               </el-tab-pane>
               <el-tab-pane label="[All Namespaces]" name="_ALL_" v-if="nacosStore.availableNamespaces.length > 0"></el-tab-pane>
@@ -55,7 +55,7 @@
            <el-alert v-else title="Please select a Nacos instance to see namespaces and configurations." type="info" :closable="false" show-icon />
         </el-col>
       </el-row>
-      
+
       <el-table :data="configurations" v-loading="isLoadingConfigurations" stripe style="width: 100%">
         <el-table-column prop="ID" label="ID" width="80" sortable />
         <el-table-column prop="DataID" label="Data ID" min-width="200" sortable show-overflow-tooltip/>
@@ -84,7 +84,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-empty v-if="!isLoadingConfigurations && configurations.length === 0" 
+      <el-empty v-if="!isLoadingConfigurations && configurations.length === 0"
         :description="nacosStore.hasSelectedInstance ? 'No configurations found for this instance/namespace.' : 'Please select a Nacos Instance.'">
       </el-empty>
 
@@ -186,7 +186,7 @@ const fetchNamespacesForInstance = async (instanceId: number) => {
         namespaceId: ns.namespace,
         namespaceShowName: ns.namespaceShowName || ns.namespace,
     }));
-    
+
     // Ensure 'public' (empty string ID) is handled correctly.
     // If the API doesn't return an entry for public explicitly, but it's the default.
     // For now, assume API returns all relevant namespaces including one for public if it has configs.
@@ -264,12 +264,12 @@ const handleCreateConfiguration = () => {
     if (targetNamespace === '_ALL_') { // If "All Namespaces" is selected, default new config to public
         targetNamespace = '';
     }
-    router.push({ 
-        name: 'ConfigurationCreate', 
-        query: { 
+    router.push({
+        name: 'ConfigurationCreate',
+        query: {
             nacosInstanceId: nacosStore.selectedInstanceId.toString(),
-            namespaceId: targetNamespace 
-        } 
+            namespaceId: targetNamespace
+        }
     });
   } else {
     ElMessage.warning('Please select a Nacos instance first.');
@@ -331,7 +331,7 @@ onMounted(() => {
   if (nacosStore.currentNamespaceId !== null) { // Can be empty string for public
     activeNamespace.value = nacosStore.currentNamespaceId;
   }
-  
+
   fetchNacosInstances(); // This will also trigger dependent fetches if selections are restored
 });
 
